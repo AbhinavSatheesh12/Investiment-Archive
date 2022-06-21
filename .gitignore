@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+results/
+logs/
+my_sentiment_model/
+.DS_Store
