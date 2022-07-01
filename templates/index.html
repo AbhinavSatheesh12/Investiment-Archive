@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock News AI</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f9; padding: 40px; text-align: center; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        input[type="text"] { padding: 10px; width: 60%; }
+        input[type="submit"] { padding: 10px 20px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        .badge { padding: 5px 10px; border-radius: 4px; color: white; font-size: 12px; margin-left: 10px;}
+        .bg-Positive { background-color: #28a745; }
+        .bg-Negative { background-color: #dc3545; }
+        .bg-Neutral { background-color: #6c757d; }
+        .news-item { text-align: left; padding: 15px 0; border-bottom: 1px solid #eee; }
+        a { text-decoration: none; color: #333; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Stock News Sentiment</h1>
+    <form method="POST">
+        <input type="text" name="ticker" placeholder="e.g. AAPL, TSLA" required value="{{ ticker }}">
+        <input type="submit" value="Analyze">
+    </form>
+    {% if ticker %}
+        <h3>Overall: {{ overall_sentiment }}</h3>
+        {% for item in news_results %}
+            <div class="news-item">
+                <a href="{{ item.link }}" target="_blank">{{ item.title }}</a>
+                <span class="badge bg-{{ item.sentiment }}">{{ item.sentiment }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+</body>
+</html>
