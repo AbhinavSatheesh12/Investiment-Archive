@@ -57,7 +57,7 @@ def train_model():
         eval_dataset=val_tokenized,
     )
 
-    # 5. Train & Save
+    # Train & Save
     print("Starting training...")
     trainer.train()
     
