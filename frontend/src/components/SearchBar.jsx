@@ -18,7 +18,7 @@ const SearchBar = ({ onSearch, isLoading }) => {
                     type="text"
                     value={ticker}
                     onChange={(e) => setTicker(e.target.value)}
-                    placeholder="Enter stock ticker (e.g. AAPL, NVDA)"
+                    placeholder="Enter ticker or company name (e.g. AAPL, Apple, Nvidia)"
                     className="w-full pl-12 pr-4 py-3 rounded-full bg-card-bg border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-lg"
                     disabled={isLoading}
                 />

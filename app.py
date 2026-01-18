@@ -20,22 +20,48 @@ try:
 except OSError:
     classifier = pipeline("sentiment-analysis") # Fallback
 
+def resolve_ticker(query):
+    """
+    Resolve a company name or ticker symbol to a valid ticker.
+    If the input looks like a ticker (all caps, short), use it directly.
+    Otherwise, search for it using yfinance.
+    """
+    query = query.strip()
+    
+    # If it looks like a ticker already (all uppercase, <= 5 chars), try it directly
+    if query.isupper() and len(query) <= 5:
+        return query
+    
+    # Otherwise, try to search for it
+    try:
+        search_results = yf.Search(query, max_results=1)
+        if search_results.quotes and len(search_results.quotes) > 0:
+            return search_results.quotes[0].get('symbol', query.upper())
+    except Exception as e:
+        print(f"Search failed: {e}")
+    
+    # Fallback: just use the input as-is (uppercased)
+    return query.upper()
+
 @app.route('/api/analyze', methods=['POST'])
 def analyze():
     data = request.get_json()
-    ticker = data.get('ticker', '').upper()
+    query = data.get('ticker', '').strip()
     
-    if not ticker:
-        return jsonify({'error': 'No ticker provided'}), 400
+    if not query:
+        return jsonify({'error': 'No ticker or company name provided'}), 400
+
+    # Resolve the query to a ticker symbol
+    ticker = resolve_ticker(query)
 
     news_results = []
     overall_sentiment = "N/A"
     sentiment_counts = {'Positive': 0, 'Negative': 0, 'Neutral': 0}
 
     try:
-        # Fetch News
+        # Fetch News (yfinance returns what's available, we process up to 100)
         stock = yf.Ticker(ticker)
-        news = stock.news
+        news = stock.news[:100] if stock.news else []
         
         pos_count = 0
         neg_count = 0
