@@ -19,8 +19,9 @@ Our model has been rigorously tested and achieved remarkable results:
 
 ## 🛠️ Tech Stack
 
--   **Backend Model:** Hugging Face Transformers (`DistilBertForSequenceClassification`), PyTorch
--   **Web Framework:** Flask
+-   **Frontend:** React, Vite, TailwindCSS
+-   **Backend:** Flask, Python
+-   **AI Model:** Hugging Face Transformers (`DistilBertForSequenceClassification`), PyTorch
 -   **Data Source:** `yfinance` for real-time stock news
 -   **Preprocessing:** `nltk` and custom tokenization
 
@@ -29,52 +30,58 @@ Our model has been rigorously tested and achieved remarkable results:
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/AbhinavSatheesh12/Investiment-Archive.git
-    cd financial-sentiment-analysis
+    cd Investiment-Archive
     ```
 
-2.  **Create a virtual environment (recommended):**
+2.  **Backend Setup:**
     ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
+    # Create virtual environment
+    python3 -m venv venv
+    source venv/bin/activate  # Windows: venv\Scripts\activate
 
-3.  **Install dependencies:**
-    ```bash
+    # Install Python dependencies
     pip install -r requirements.txt
+    ```
+
+3.  **Frontend Setup:**
+    ```bash
+    cd frontend
+    npm install
+    cd ..
     ```
 
 ## 🏃 Usage
 
-### 1. Run the Web Application
-Start the Flask app to use the web interface:
+You need to run both the backend and frontend servers.
 
+### 1. Start Support Backend
+In your main project directory (with venv activated):
 ```bash
-python app.py
+python3 app.py
 ```
-Open your browser and navigate to `http://127.0.0.1:5000`. Enter a stock ticker (e.g., `AAPL`, `TSLA`, `NVDA`) to see the latest news and overall sentiment analysis.
+The backend API will run on `http://127.0.0.1:5000`.
 
-### 2. Train the Model (Optional)
-If you wish to retrain the model from scratch:
-
+### 2. Start Frontend Application
+Open a new terminal, navigate to the frontend folder, and start the verified dev server:
 ```bash
-python train_model.py
+cd frontend
+npm run dev
 ```
-*Note: Ensure you have the training dataset in `data/stock_data.csv`.*
+Open your browser and navigate to the local URL (usually `http://localhost:5173`) to use the Investiment application.
 
 ### 3. Verify Accuracy
-To run the accuracy test script:
-
+To run the accuracy test script on the specialized financial dataset:
 ```bash
-python test_binary_accuracy.py
+python3 test_binary_accuracy.py
 ```
 
 ## 📂 Project Structure
 
--   `app.py`: Main Flask application for the web interface.
+-   `app.py`: Flask backend API.
+-   `frontend/`: React frontend application (Vite + Tailwind).
 -   `train_model.py`: Script to fine-tune the DistilBERT model.
 -   `test_binary_accuracy.py`: Validation script to verify model performance.
 -   `my_sentiment_model/`: Directory containing the saved model artifacts.
--   `templates/`: HTML templates for the web app.
 
 ---
 *Built with ❤️ for better investing.*

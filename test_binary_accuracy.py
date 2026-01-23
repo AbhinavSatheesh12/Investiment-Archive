@@ -11,18 +11,16 @@ except OSError:
     print("Local model not found, using default...")
     classifier = pipeline("sentiment-analysis")
 
-# 2. Load Dataset (FIXED: Added trust_remote_code=True)
+# 2. Load Dataset
 print("Loading Financial PhraseBank and removing Neutral items...")
 
-# --- THIS IS THE FIX ---
 dataset = load_dataset("financial_phrasebank", "sentences_50agree", split="train", trust_remote_code=True)
-# -----------------------
 
 # Filter: Keep only Negative (0) and Positive (2). Reject Neutral (1).
 binary_dataset = dataset.filter(lambda x: x['label'] != 1)
 
-# Limit to 100 examples for speed (remove .select(...) to test everything)
-test_data = binary_dataset.select(range(100))
+test_data = binary_dataset
+# test_data = binary_dataset.select(range(100)) # Uncomment for quick testing
 
 print(f"Testing on {len(test_data)} examples (Positive vs Negative only)...")
 
